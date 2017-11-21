@@ -33,7 +33,7 @@ public class HttpUtils {
         Disposable disposable = observable.subscribeOn(Schedulers.io())//订阅者要在主线程执行
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(callback);
-        lifecycle.bindDisposable(disposable);
+            lifecycle.bindDisposable(disposable);
 
     }
 }

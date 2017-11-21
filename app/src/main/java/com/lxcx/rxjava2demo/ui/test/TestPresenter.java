@@ -1,5 +1,7 @@
 package com.lxcx.rxjava2demo.ui.test;
 
+import com.lxcx.rxjava2demo.app.MyCommon;
+import com.lxcx.rxjava2demo.bean.RespBean;
 import com.lxcx.rxjava2demo.bean.TestBean;
 import com.lxcx.rxjava2demo.http.Callback;
 import com.lxcx.rxjava2demo.http.test.TestService;
@@ -17,17 +19,29 @@ public class TestPresenter extends BasePresenter<TestContract.View> implements T
     private TestService service;
 
     @Inject
-    public TestPresenter(TestService service){
+    public TestPresenter(TestService service) {
         this.service = service;
     }
 
     @Override
     public void fetchData(int page) {
-        invoke(service.getData(page,15),new Callback<TestBean>(){
+        invoke(service.getData(page, 15), new Callback<TestBean>() {
             @Override
             public void onResponse(TestBean data) {
                 mView.hData(data);
             }
         });
     }
+
+    @Override
+    public void getPhoneInfo(String phone) {
+        invoke(service.getPhoneInfo(phone, MyCommon.API_KEY), new Callback<RespBean>() {
+            @Override
+            public void onResponse(RespBean data) {
+                mView.phoneInfo(data.getResult());
+            }
+        });
+    }
+
+
 }

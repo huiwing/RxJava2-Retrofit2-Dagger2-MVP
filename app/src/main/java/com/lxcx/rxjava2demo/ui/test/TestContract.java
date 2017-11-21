@@ -1,5 +1,6 @@
 package com.lxcx.rxjava2demo.ui.test;
 
+import com.lxcx.rxjava2demo.bean.PhoneBean;
 import com.lxcx.rxjava2demo.bean.TestBean;
 import com.lxcx.rxjava2demo.ui.base.BaseView;
 
@@ -11,8 +12,10 @@ import com.lxcx.rxjava2demo.ui.base.BaseView;
 public interface TestContract {
     interface View extends BaseView{
         void hData(TestBean data);
+        void phoneInfo(PhoneBean data);
     }
     interface Presenter{
         void fetchData(int page);
+        void getPhoneInfo(String phone);
     }
 }

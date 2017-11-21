@@ -4,6 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -11,6 +18,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.internal.operators.flowable.FlowableOnBackpressureBuffer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -21,7 +29,76 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testThread();
+        backpressure();
+    }
+
+    /**
+     * 背压
+     */
+    void backpressure() {
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+                int i = 0;
+                while (true) {
+                    i++;
+                    e.onNext(i);
+                }
+            }
+        }, BackpressureStrategy.DROP)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d(TAG, "i--->" + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    /**
+     * OutOfMemoryError
+     */
+    void OutOfMemoryError() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                int i = 0;
+                while (true) {
+                    i++;
+                    e.onNext(i);
+                }
+            }
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        Thread.sleep(10000);
+                        Log.d("TAG", "i-->" + integer);
+                    }
+                });
     }
 
     void firstsTest() {
@@ -72,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     void testThread() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
-            public void subscribe( ObservableEmitter<Integer> e) throws Exception {
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                 Log.e(TAG, "Observable thread is : " + Thread.currentThread().getName());
                 e.onNext(1);
                 e.onComplete();
@@ -82,14 +159,14 @@ public class MainActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<Integer>() {
                     @Override
-                    public void accept( Integer integer) throws Exception {
+                    public void accept(Integer integer) throws Exception {
                         Log.e(TAG, "After observeOn(mainThread)，Current thread is " + Thread.currentThread().getName());
                     }
                 })
                 .observeOn(Schedulers.io())
                 .subscribe(new Consumer<Integer>() {
                     @Override
-                    public void accept( Integer integer) throws Exception {
+                    public void accept(Integer integer) throws Exception {
                         Log.e(TAG, "After observeOn(io)，Current thread is " + Thread.currentThread().getName());
                     }
                 });

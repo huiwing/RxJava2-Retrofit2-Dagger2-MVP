@@ -1,6 +1,7 @@
 package com.lxcx.rxjava2demo.app;
 
 /**
+ * MyCommon
  * Created by ArmyAntAndroid on 2017/11/17.
  */
 
@@ -12,6 +13,7 @@ public class MyCommon {
     public static final int STATE_SUCCESS = 4;//加载成功
 
 
-    public static final String BASE_URL = "http://10.0.2.2:8080/";
-    public static final String TEST_DATA = "cc/json/mobile_tel_segment.htm";
+    public static final String API_KEY = "525e1616ad8c01b7d62225babfafa2eb";
+    public static final String BASE_URL = "http://apis.juhe.cn/";
+    public static final String TEST_DATA = "mobile/get";
 }

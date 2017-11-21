@@ -1,7 +1,7 @@
 package com.lxcx.rxjava2demo.http;
 
 /**
- * 加载状态
+ * 页面加载状态
  * Created by ArmyAntAndroid on 2017/11/17.
  */
 

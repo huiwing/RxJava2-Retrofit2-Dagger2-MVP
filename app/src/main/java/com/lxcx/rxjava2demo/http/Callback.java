@@ -23,14 +23,6 @@ public class Callback<T> extends DisposableObserver<T> {
         }
     }
 
-    /*@Override
-    public void onSubscribe(Disposable d) {
-        Log.i(TAG,"-----onSubscribe-----");
-        if(d!=null){
-            lifeDisposable.bindDisposable(d);
-        }
-    }*/
-
     @Override
     public void onNext(T t) {
         onResponse(t);

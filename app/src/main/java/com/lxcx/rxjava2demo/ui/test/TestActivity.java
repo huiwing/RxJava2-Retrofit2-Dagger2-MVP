@@ -3,6 +3,7 @@ package com.lxcx.rxjava2demo.ui.test;
 import android.util.Log;
 
 import com.lxcx.rxjava2demo.R;
+import com.lxcx.rxjava2demo.bean.PhoneBean;
 import com.lxcx.rxjava2demo.bean.TestBean;
 import com.lxcx.rxjava2demo.injector.module.http.TestHttpModule;
 import com.lxcx.rxjava2demo.ui.base.BaseDefaultActivity;
@@ -11,7 +12,7 @@ import com.lxcx.rxjava2demo.ui.base.BaseDefaultActivity;
  * Created by ArmyAntAndroid on 2017/11/17.
  */
 
-public class TestActivity extends BaseDefaultActivity<TestPresenter> implements TestContract.View{
+public class TestActivity extends BaseDefaultActivity<TestPresenter> implements TestContract.View {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -31,11 +32,16 @@ public class TestActivity extends BaseDefaultActivity<TestPresenter> implements 
 
     @Override
     protected void initData() {
-        mPresenter.fetchData(1);
+        mPresenter.getPhoneInfo("15949581550");
     }
 
     @Override
     public void hData(TestBean data) {
-        Log.d("TAG","data--->"+data);
+        Log.d("TAG", "data--->" + data);
+    }
+
+    @Override
+    public void phoneInfo(PhoneBean data) {
+        Log.d("TAG", "data--->" + data);
     }
 }
