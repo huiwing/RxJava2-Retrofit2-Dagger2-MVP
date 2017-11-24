@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * BaseHttpModule
  * Created by ArmyAntAndroid on 2017/11/17.
  */
 

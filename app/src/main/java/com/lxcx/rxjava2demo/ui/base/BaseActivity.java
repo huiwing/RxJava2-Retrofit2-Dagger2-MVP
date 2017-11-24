@@ -26,8 +26,20 @@ public abstract class BaseActivity extends AppCompatActivity implements LifeDisp
     @LayoutRes
     protected abstract int getLayoutId();
 
+    /**
+     * 初始化View
+     */
     protected abstract void initView();
+
+    /**
+     * 初始化事件
+     */
     protected abstract void initEvent();
+
+    /**
+     * 初始化数据(加载初始数据)
+     */
+    protected abstract void initData();
 
     @Override
     protected void onResume() {
@@ -44,10 +56,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LifeDisp
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(unbinder!=null){
+        if (unbinder != null) {
             unbinder.unbind();
         }
-        if(composite!=null&&composite.size()>0){
+        if (composite != null && composite.size() > 0) {
             composite.clear();
         }
     }
@@ -59,11 +71,12 @@ public abstract class BaseActivity extends AppCompatActivity implements LifeDisp
         unbinder = ButterKnife.bind(this);
         initView();
         initEvent();
+        initData();
     }
 
     @Override
     public void bindDisposable(Disposable disposable) {
-        if(composite==null){
+        if (composite == null) {
             composite = new CompositeDisposable();
         }
         composite.add(disposable);

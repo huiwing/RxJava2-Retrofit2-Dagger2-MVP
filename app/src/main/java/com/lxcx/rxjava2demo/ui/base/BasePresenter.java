@@ -23,23 +23,24 @@ public class BasePresenter<T extends BaseView> {
     private Callback callback;
 
     @SuppressWarnings("unchecked")
-    public void attachView(LifeDisposable mLifeDisposable){
+    public void attachView(LifeDisposable mLifeDisposable) {
         this.mReferenceView = new WeakReference<>((T) mLifeDisposable);
         mView = mReferenceView.get();
     }
 
-    protected <T> void invoke(Observable<T> observable, Callback<T> callback){
+    protected <E> void invoke(Observable<E> observable, Callback<E> callback) {
         this.callback = callback;
-        HttpUtils.invoke((LifeDisposable) mView,observable,callback);
+        HttpUtils.invoke((LifeDisposable) mView, observable, callback);
     }
 
     /**
      * 检查数据是否为空
+     *
      * @param list
      */
-    public void checkState(List list){
-        if(list.size()==0){
-            if(mView instanceof Stateful){
+    public void checkState(List list) {
+        if (list.size() == 0) {
+            if (mView instanceof Stateful) {
                 ((Stateful) mView).setState(MyCommon.STATE_EMPTY);
             }
         }
@@ -48,15 +49,15 @@ public class BasePresenter<T extends BaseView> {
     /**
      * 回收资源
      */
-    public void detachView(){
-        if(mReferenceView!=null){
+    public void detachView() {
+        if (mReferenceView != null) {
             mReferenceView.clear();
             mReferenceView = null;
         }
-        if(mView!=null){
+        if (mView != null) {
             mView = null;
         }
-        if(callback!=null){
+        if (callback != null) {
             callback.detachView();
         }
     }

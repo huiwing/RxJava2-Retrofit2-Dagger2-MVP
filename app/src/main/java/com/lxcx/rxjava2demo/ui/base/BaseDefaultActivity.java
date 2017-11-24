@@ -15,13 +15,13 @@ public abstract class BaseDefaultActivity<T extends BasePresenter> extends BaseA
     @Inject
     protected T mPresenter;
 
-    protected abstract void initData();
+    protected abstract void loadData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter.attachView(this);
-        initData();
+        loadData();
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.lxcx.rxjava2demo.app.MyCommon;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -16,9 +15,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HttpUtils {
-    public static <T> void invoke(LifeDisposable lifecycle, Observable<T> observable, Callback<T> callback){
+    public static <T> void invoke(LifeDisposable lifecycle, Observable<T> observable, Callback<T> callback) {
         Stateful target = null;
-        if (lifecycle instanceof Stateful){
+        if (lifecycle instanceof Stateful) {
             target = (Stateful) lifecycle;
             callback.setTarget(target);
         }
@@ -30,10 +29,10 @@ public class HttpUtils {
             return;
         }
 
-        Disposable disposable = observable.subscribeOn(Schedulers.io())//订阅者要在主线程执行
+        observable.subscribeOn(Schedulers.io())//订阅者要在主线程执行
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(callback);
-            lifecycle.bindDisposable(disposable);
+                .subscribe(callback);
+        lifecycle.bindDisposable(callback);
 
     }
 }
