@@ -1,9 +1,10 @@
-package com.lxcx.rxjava2demo.http;
+package com.lxcx.rxjava2demo.http.utils;
 
 
 import com.blankj.utilcode.utils.NetworkUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.lxcx.rxjava2demo.app.MyCommon;
+import com.lxcx.rxjava2demo.bean.PhoneBean;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,6 +32,7 @@ public class HttpUtils {
 
         observable.subscribeOn(Schedulers.io())//订阅者要在主线程执行
                 .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new HttpRespFunc<>())
                 .subscribe(callback);
         lifecycle.bindDisposable(callback);
 

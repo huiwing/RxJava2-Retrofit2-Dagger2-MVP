@@ -22,7 +22,7 @@ public class TestActivity extends BaseDefaultActivity<TestPresenter> implements 
 
     @OnClick(R.id.text)
     void click() {
-        RxBus.getDefault().post(new RxMsgBean("msg", 1, 1));
+        RxBus.getDefault().post(new RxMsgBean("msg", 1));
     }
 
     @Override
@@ -64,6 +64,7 @@ public class TestActivity extends BaseDefaultActivity<TestPresenter> implements 
 
     @Override
     protected void loadData() {
+        Log.d("TAG", "------loadData-------");
         mPresenter.getPhoneInfo("15949581550");
     }
 }

@@ -1,4 +1,4 @@
-package com.lxcx.rxjava2demo.http;
+package com.lxcx.rxjava2demo.http.utils;
 
 
 import io.reactivex.disposables.Disposable;

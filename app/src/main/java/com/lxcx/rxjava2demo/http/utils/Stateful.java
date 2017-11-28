@@ -1,4 +1,4 @@
-package com.lxcx.rxjava2demo.http;
+package com.lxcx.rxjava2demo.http.utils;
 
 /**
  * 页面加载状态

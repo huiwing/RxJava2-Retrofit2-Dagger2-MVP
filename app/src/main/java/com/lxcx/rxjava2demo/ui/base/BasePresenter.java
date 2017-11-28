@@ -1,10 +1,10 @@
 package com.lxcx.rxjava2demo.ui.base;
 
 import com.lxcx.rxjava2demo.app.MyCommon;
-import com.lxcx.rxjava2demo.http.Callback;
-import com.lxcx.rxjava2demo.http.HttpUtils;
-import com.lxcx.rxjava2demo.http.LifeDisposable;
-import com.lxcx.rxjava2demo.http.Stateful;
+import com.lxcx.rxjava2demo.http.utils.Callback;
+import com.lxcx.rxjava2demo.http.utils.HttpUtils;
+import com.lxcx.rxjava2demo.http.utils.LifeDisposable;
+import com.lxcx.rxjava2demo.http.utils.Stateful;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

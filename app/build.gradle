@@ -1,9 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    //buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.lxcx.rxjava2demo"
         minSdkVersion 15

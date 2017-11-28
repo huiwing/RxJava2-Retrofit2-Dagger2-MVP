@@ -5,7 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.lxcx.rxjava2demo.http.LifeDisposable;
+import com.lxcx.rxjava2demo.http.utils.LifeDisposable;
 
 
 import butterknife.ButterKnife;

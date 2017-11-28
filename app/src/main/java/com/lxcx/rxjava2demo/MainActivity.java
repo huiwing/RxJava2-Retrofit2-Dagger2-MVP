@@ -4,8 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.lxcx.rxjava2demo.http.utils.HttpRespFunc;
+import com.lxcx.rxjava2demo.http.utils.RetryWhenNetworkException;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
+
+import java.net.ConnectException;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -18,7 +24,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.internal.operators.flowable.FlowableOnBackpressureBuffer;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -29,7 +35,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        backpressure();
+        exception();
+    }
+
+    void exception() {
+        Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
+                for (int i = 0; i <= 3; i++) {
+                    if (i == 2) {
+                        e.onError(new ConnectException());
+                    } else {
+                        e.onNext(i + "");
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.newThread())
+          /*      .retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> apply(Observable<Throwable> throwableObservable) throws Exception {
+                return Observable.error(new Throwable("----retry终止了----"));
+            }
+        })*/
+                .onErrorResumeNext(new HttpRespFunc<>())
+                .retryWhen(new RetryWhenNetworkException())
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(String value) {
+                        Log.d(TAG, "收到消息--->" + value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "错误结果--->" + e.getMessage());
+                        Log.e(TAG, "错误结果--->" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "----onComplete----");
+                    }
+                });
     }
 
     /**

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lxcx.rxjava2demo.http.LifeDisposable;
+import com.lxcx.rxjava2demo.http.utils.LifeDisposable;
 
 import javax.inject.Inject;
 

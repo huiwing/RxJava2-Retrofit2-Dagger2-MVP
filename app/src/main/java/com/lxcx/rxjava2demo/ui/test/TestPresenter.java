@@ -3,9 +3,11 @@ package com.lxcx.rxjava2demo.ui.test;
 import com.lxcx.rxjava2demo.app.MyCommon;
 import com.lxcx.rxjava2demo.bean.RespBean;
 import com.lxcx.rxjava2demo.bean.TestBean;
-import com.lxcx.rxjava2demo.http.Callback;
+import com.lxcx.rxjava2demo.http.utils.Callback;
 import com.lxcx.rxjava2demo.http.test.TestService;
 import com.lxcx.rxjava2demo.ui.base.BasePresenter;
+
+import java.net.ConnectException;
 
 import javax.inject.Inject;
 
@@ -35,6 +37,11 @@ public class TestPresenter extends BasePresenter<TestContract.View> implements T
 
     @Override
     public void getPhoneInfo(String phone) {
+        try {
+            throw new ConnectException();
+        } catch (ConnectException e) {
+           // e.printStackTrace();
+        }
         invoke(service.getPhoneInfo(phone, MyCommon.API_KEY), new Callback<RespBean>() {
             @Override
             public void onResponse(RespBean data) {

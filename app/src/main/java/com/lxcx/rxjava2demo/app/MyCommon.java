@@ -15,5 +15,6 @@ public class MyCommon {
 
     public static final String API_KEY = "525e1616ad8c01b7d62225babfafa2eb";
     public static final String BASE_URL = "http://apis.juhe.cn/";
+    //public static final String BASE_URL = "http://www.sbsb213.com/";
     public static final String TEST_DATA = "mobile/get";
 }

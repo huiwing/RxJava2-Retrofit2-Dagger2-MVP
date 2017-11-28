@@ -1,4 +1,4 @@
-package com.lxcx.rxjava2demo.http;
+package com.lxcx.rxjava2demo.http.utils;
 
 import android.util.Log;
 
@@ -13,34 +13,41 @@ import io.reactivex.observers.DisposableObserver;
 public class Callback<T> extends DisposableObserver<T> {
     private static final String TAG = "Callback";
     private Stateful target;
-    public void setTarget(Stateful target){
+
+    public void setTarget(Stateful target) {
         this.target = target;
     }
 
-    public void detachView(){
-        if(target!=null){
+    public void detachView() {
+        if (target != null) {
             target = null;
         }
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onNext(T t) {
         onResponse(t);
-        Log.i(TAG,"-----onNext-----");
+        Log.i(TAG, "-----onNext-----");
     }
 
     @Override
     public void onError(Throwable e) {
-        Log.i(TAG,"-----onError-----");
-        e.printStackTrace();
+        Log.i(TAG, "-----onError-----");
+        Log.i(TAG, "e----->" + e.getMessage());
+
     }
 
     @Override
     public void onComplete() {
-        Log.i(TAG,"-----onCompleted-----");
+        Log.i(TAG, "-----onCompleted-----");
     }
 
-    public void onResponse(T data){
+    public void onResponse(T data) {
     }
 
 }
